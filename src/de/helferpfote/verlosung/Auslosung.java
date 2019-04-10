@@ -1,33 +1,36 @@
 package de.helferpfote.verlosung;
 
 import javax.swing.*;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-public class Auslosung {
+class Auslosung {
 
-    public static ArrayList<String> teilnehmer;
-    static ArrayList<String> str;
-    static ArrayList<Integer> inte;
-    static LinkedHashSet<String> set;
-    static StringBuilder sb;
-    static List<String> gewinner;
-    static StringBuilder kette;
-    static File file;
+    private static ArrayList<String> teilnehmer;
+    private static ArrayList<String> str;
+    private static ArrayList<Integer> inte;
+    private static LinkedHashSet<String> set;
+    private static StringBuilder sb;
+    private static ArrayList<String> gewinner;
+    private static StringBuilder kette;
+    private static File file;
+    private static BufferedWriter writer;
 
-    public Auslosung() {
-        teilnehmer = new ArrayList<String>();
-        str = new ArrayList<String>();
-        inte = new ArrayList<Integer>();
+    Auslosung() {
+        teilnehmer = new ArrayList<>();
+        str = new ArrayList<>();
+        inte = new ArrayList<>();
         set = new LinkedHashSet<>();
         sb = new StringBuilder();
         gewinner = new ArrayList<>();
         kette = new StringBuilder();
     }
 
-    public static void Ziehen() {
+    static void Ziehen() {
         Start.drawTextArea.setText("");
         boolean winner = false;
         int count = 0;
@@ -54,49 +57,54 @@ public class Auslosung {
         System.out.println(teilnehmer);
         kette.delete(0, Integer.MAX_VALUE);
         for(String a : gewinner) {
-            kette.append(a + " hat gewonnen!! \n");
+            kette.append(a).append(" hat gewonnen!! \n");
             Start.drawTextArea.setText("");
         }
         System.out.println(kette);
         Start.drawTextArea.setText(String.valueOf(kette));
     }
 
-    public static void teilnehmerHinzufuegen() {
+    static void teilnehmerHinzufuegen() {
         Start.textArea.setText("");
-        if(!Start.textField.getText().equals("")) {
-            Auslosung.teilnehmer.add(Start.textField.getText().toLowerCase());
-        }
-        Iterator i = Auslosung.teilnehmer.iterator();
-        int k = Auslosung.teilnehmer.size()-1;
-        int j = 0;
-        String strings = new String();
-        while (i.hasNext()) {
-            String next = i.next().toString();
-            if(!str.contains(next) && j == k) {
-                str.add(next);
-                inte.add(0);
-            } else if(str.contains(next) && !(Start.textField.getText().equals("")) && j == k) {
-                inte.set(str.indexOf(next), inte.get(str.indexOf(next)) + 1);
+        String[] teilnehmerListe = Start.textField.getText().split(",");
+
+        for(String s : teilnehmerListe) {
+            s = s.replaceAll("\\s+","");
+            if (!s.equals("")) {
+                Auslosung.teilnehmer.add(s.toLowerCase());
             }
-            if(j == k) {
-                for(int x = 0; x < str.size(); x++) {
-                    strings = (str.get(str.indexOf(next)));
+            Iterator i = Auslosung.teilnehmer.iterator();
+            int k = Auslosung.teilnehmer.size() - 1;
+            int j = 0;
+            String strings = "";
+            while (i.hasNext()) {
+                String next = i.next().toString();
+                if (!str.contains(next) && j == k) {
+                    str.add(next);
+                    inte.add(0);
+                } else if (str.contains(next) && !(s.equals("")) && j == k) {
+                    inte.set(str.indexOf(next), inte.get(str.indexOf(next)) + 1);
                 }
-                set.add(strings);
-                sb.delete(0, Integer.MAX_VALUE);
-                System.out.println(set);
-                for(String a : set) {
-                    sb.append(a + " +" + inte.get(indexOf(a))  + "\n");
-                    System.out.println(sb);
+                if (j == k) {
+                    for (int x = 0; x < str.size(); x++) {
+                        strings = (str.get(str.indexOf(next)));
+                    }
+                    set.add(strings);
+                    sb.delete(0, Integer.MAX_VALUE);
+                    System.out.println(set);
+                    for (String a : set) {
+                        sb.append(a).append(" +").append(inte.get(indexOf(a))).append("\n");
+                        System.out.println(sb);
+                    }
                 }
+                j++;
             }
-            j++;
         }
         Start.textField.setText("");
         Start.textArea.append(String.valueOf(sb));
     }
 
-    public static int indexOf(String value) {
+    private static int indexOf(String value) {
         int count = 0;
         for(String a : set) {
             if(a.equals(value)) return count;
@@ -105,7 +113,20 @@ public class Auslosung {
         return -1;
     }
 
-    public static void reset(){
+    static void save() {
+        try {
+            createFile();
+            writer = new BufferedWriter(new FileWriter(file));
+            writeToFile("Teilnehmer", teilnehmer);
+            writeToFile("Gewinner", gewinner);
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } JOptionPane.showMessageDialog(null, "Daten gespeichert!");
+    }
+
+    static void reset(){
+
         Start.textField.setText("");
         Start.textArea.setText("");
         Start.drawTextArea.setText("");
@@ -117,26 +138,12 @@ public class Auslosung {
         Start.drawTextArea.setText("");
         kette.delete(0, Integer.MAX_VALUE);
         gewinner.clear();
-        createFile();
     }
 
-    public static void createFile() {
+    private static void createFile() {
         File theDir = new File("Gewinnspiele");
-
         if (!theDir.exists()) {
             System.out.println("creating directory: " + theDir.getName());
-            boolean result = false;
-
-            try{
-                theDir.mkdir();
-                result = true;
-            }
-            catch(SecurityException se){
-                //handle it
-            }
-            if(result) {
-                System.out.println("DIR created");
-            }
         }
         Calendar cal = Calendar.getInstance();
         SimpleDateFormat date = new SimpleDateFormat("dd.MM.yyyy_HH:mm:ss");
@@ -150,4 +157,22 @@ public class Auslosung {
             e.printStackTrace();
         }
     }
+
+    private static void writeToFile(String typ, ArrayList<String> listOfStrings) {
+        try {
+
+            writer.append(typ).append(":\n");
+            writer.append("\n");
+
+            for(String s : listOfStrings) {
+                writer.append(s).append("\n");
+            }
+
+            writer.append("\n");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

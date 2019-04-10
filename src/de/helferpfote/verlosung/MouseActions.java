@@ -9,6 +9,7 @@ public class MouseActions implements MouseListener {
     public MouseActions(){
         Start.button.addMouseListener(this);
         Start.drawButton.addMouseListener(this);
+        Start.saveButton.addMouseListener(this);
         Start.resetButton.addMouseListener(this);
     }
 
@@ -35,6 +36,9 @@ public class MouseActions implements MouseListener {
         if (e.getSource() == Start.drawButton) {
             Start.drawButton.setBackground(Color.white);
         }
+        if (e.getSource() == Start.saveButton) {
+            Start.saveButton.setBackground(Color.white);
+        }
         if (e.getSource() == Start.resetButton) {
             Start.resetButton.setBackground(Color.white);
         }
@@ -48,6 +52,9 @@ public class MouseActions implements MouseListener {
         }
         if (e.getSource() == Start.drawButton) {
             Start.drawButton.setBackground(new Color(255,240,149));
+        }
+        if (e.getSource() == Start.saveButton) {
+            Start.saveButton.setBackground(new Color(255,240,149));
         }
         if (e.getSource() == Start.resetButton) {
             Start.resetButton.setBackground(new Color(255,240,149));

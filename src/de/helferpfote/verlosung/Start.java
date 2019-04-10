@@ -16,6 +16,7 @@ public class Start extends JFrame {
     public static JButton button;
     public static JButton drawButton;
     public static JButton resetButton;
+    public static JButton saveButton;
     public static JTextField textField;
     public static JTextArea textArea;
     public static JTextPane drawTextArea;
@@ -41,7 +42,7 @@ public class Start extends JFrame {
         //Border padding = BorderFactory.createEmptyBorder(0,10,0,10);
         //centerPanel.setBorder(padding);
         rightEndPanel = new JPanel();
-        rightEndPanel.setLayout(new GridLayout(1, 2));
+        rightEndPanel.setLayout(new GridLayout(1, 3));
         leftPanel = new JPanel();
         leftPanel.setLayout(new BorderLayout());
 
@@ -90,6 +91,13 @@ public class Start extends JFrame {
         resetButton.setBorder(compount);
         resetButton.setSize(100, 20);
 
+        saveButton = new JButton("save");
+        saveButton.addActionListener(new ButtonActions());
+        saveButton.setBackground(new Color(255,240,149));
+        saveButton.setForeground(new Color(179,95,144));
+        saveButton.setBorder(compount);
+        saveButton.setSize(100, 20);
+
 
 
 
@@ -97,6 +105,7 @@ public class Start extends JFrame {
         pageEndPanel.add(rightEndPanel);
 
         rightEndPanel.add(drawButton);
+        rightEndPanel.add(saveButton);
         rightEndPanel.add(resetButton);
 
         leftPanel.add(textField, BorderLayout.PAGE_START);

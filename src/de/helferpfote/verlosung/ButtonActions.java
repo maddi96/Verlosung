@@ -17,6 +17,9 @@ public class ButtonActions implements ActionListener {
         else if (e.getSource() == Start.drawButton){
             Auslosung.Ziehen();
         }
+        else if(e.getSource() == Start.saveButton){
+            Auslosung.save();
+        }
         else if(e.getSource() == Start.resetButton){
             Auslosung.reset();
         }
