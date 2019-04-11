@@ -17,10 +17,12 @@ public class Start extends JFrame {
     public static JButton drawButton;
     public static JButton resetButton;
     public static JButton saveButton;
+    public static JButton deleteButton;
     public static JTextField textField;
     public static JTextArea textArea;
     public static JTextPane drawTextArea;
     public static JPanel rightEndPanel;
+    public static JPanel leftEndPanel;
     public static StyledDocument doc;
     public static JPanel leftPanel;
 
@@ -43,6 +45,9 @@ public class Start extends JFrame {
         //centerPanel.setBorder(padding);
         rightEndPanel = new JPanel();
         rightEndPanel.setLayout(new GridLayout(1, 3));
+        leftEndPanel = new JPanel();
+        leftEndPanel.setLayout(new GridLayout(1,2));
+
         leftPanel = new JPanel();
         leftPanel.setLayout(new BorderLayout());
 
@@ -98,12 +103,21 @@ public class Start extends JFrame {
         saveButton.setBorder(compount);
         saveButton.setSize(100, 20);
 
+        deleteButton = new JButton("delete");
+        deleteButton.addActionListener(new ButtonActions());
+        deleteButton.setBackground(new Color(173,249,255));
+        deleteButton.setForeground(new Color(179,95,144));
+        deleteButton.setBorder(compount);
+        deleteButton.setSize(100, 20);
 
 
 
-        pageEndPanel.add(button);
+
+        pageEndPanel.add(leftEndPanel);
         pageEndPanel.add(rightEndPanel);
 
+        leftEndPanel.add(button);
+        leftEndPanel.add(deleteButton);
         rightEndPanel.add(drawButton);
         rightEndPanel.add(saveButton);
         rightEndPanel.add(resetButton);

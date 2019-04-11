@@ -20,6 +20,7 @@ class Auslosung {
     private static File file;
     private static BufferedWriter writer;
 
+
     Auslosung() {
         teilnehmer = new ArrayList<>();
         str = new ArrayList<>();
@@ -68,24 +69,28 @@ class Auslosung {
         Start.textArea.setText("");
         String[] teilnehmerListe = Start.textField.getText().split(",");
 
+        str.clear();
+        inte.clear();
+        set.clear();
+
         for(String s : teilnehmerListe) {
-            s = s.replaceAll("\\s+","");
+            s = s.replaceAll("\\s+", "");
             if (!s.equals("")) {
                 Auslosung.teilnehmer.add(s.toLowerCase());
             }
+        }
             Iterator i = Auslosung.teilnehmer.iterator();
             int k = Auslosung.teilnehmer.size() - 1;
             int j = 0;
             String strings = "";
             while (i.hasNext()) {
                 String next = i.next().toString();
-                if (!str.contains(next) && j == k) {
+                if (!str.contains(next)) {
                     str.add(next);
                     inte.add(0);
-                } else if (str.contains(next) && !(s.equals("")) && j == k) {
+                } else if (str.contains(next)) {
                     inte.set(str.indexOf(next), inte.get(str.indexOf(next)) + 1);
                 }
-                if (j == k) {
                     for (int x = 0; x < str.size(); x++) {
                         strings = (str.get(str.indexOf(next)));
                     }
@@ -96,13 +101,16 @@ class Auslosung {
                         sb.append(a).append(" +").append(inte.get(indexOf(a))).append("\n");
                         System.out.println(sb);
                     }
-                }
                 j++;
             }
-        }
         Start.textField.setText("");
-        Start.textArea.append(String.valueOf(sb));
-    }
+            if(Auslosung.teilnehmer.size() != 0) {
+                Start.textArea.append(String.valueOf(sb));
+            } else {
+                Start.textArea.setText("");
+            }
+        }
+
 
     private static int indexOf(String value) {
         int count = 0;
@@ -138,6 +146,19 @@ class Auslosung {
         Start.drawTextArea.setText("");
         kette.delete(0, Integer.MAX_VALUE);
         gewinner.clear();
+    }
+
+    static void delet() {
+        if(teilnehmer.size() == 0) {
+            JOptionPane.showMessageDialog(null, "Keine Teilnehmer vorhanden!");
+        } else {
+            String eingabe = JOptionPane.showInputDialog(null, "Geben Sie den Teilnehmernamen ein der gelöscht werden soll!").toLowerCase();
+            if(teilnehmer.contains(eingabe)) {
+                teilnehmer.remove(teilnehmer.indexOf(eingabe));
+            }
+            System.out.println(teilnehmer);
+            teilnehmerHinzufuegen();
+        }
     }
 
     private static void createFile() {

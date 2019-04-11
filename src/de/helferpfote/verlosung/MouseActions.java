@@ -11,6 +11,7 @@ public class MouseActions implements MouseListener {
         Start.drawButton.addMouseListener(this);
         Start.saveButton.addMouseListener(this);
         Start.resetButton.addMouseListener(this);
+        Start.deleteButton.addMouseListener(this);
     }
 
     @Override
@@ -42,6 +43,9 @@ public class MouseActions implements MouseListener {
         if (e.getSource() == Start.resetButton) {
             Start.resetButton.setBackground(Color.white);
         }
+        if (e.getSource() == Start.deleteButton) {
+            Start.deleteButton.setBackground(Color.white);
+        }
 
     }
 
@@ -58,6 +62,9 @@ public class MouseActions implements MouseListener {
         }
         if (e.getSource() == Start.resetButton) {
             Start.resetButton.setBackground(new Color(255,240,149));
+        }
+        if (e.getSource() == Start.deleteButton) {
+            Start.deleteButton.setBackground(new Color(173,249,255));
         }
 
     }

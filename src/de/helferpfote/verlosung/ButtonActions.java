@@ -23,6 +23,9 @@ public class ButtonActions implements ActionListener {
         else if(e.getSource() == Start.resetButton){
             Auslosung.reset();
         }
+        else if(e.getSource() == Start.deleteButton){
+            Auslosung.delet();
+        }
     }
 
 
