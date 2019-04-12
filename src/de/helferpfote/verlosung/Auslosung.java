@@ -163,9 +163,26 @@ class Auslosung {
 
     private static void createFile() {
         File theDir = new File("Gewinnspiele");
+        
+        //Dieser Code muss noch hinzugefügt werden, sonst gibt es einen Fehler falls kein Ordner existiert!
+        
+        //Start
         if (!theDir.exists()) {
             System.out.println("creating directory: " + theDir.getName());
+            boolean result = false;
+            try{
+                theDir.mkdir();
+                result = true;
+            }
+            catch(SecurityException se){
+                //handle it
+            }
+            if(result) {
+                System.out.println("DIR created");
+            }
         }
+        //Ende
+        
         Calendar cal = Calendar.getInstance();
         SimpleDateFormat date = new SimpleDateFormat("dd.MM.yyyy_HH:mm:ss");
         String fileName = "Gewinnspiele/gs" + date.format((cal.getTime())) + ".txt";
